@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "UserSetting";
+
+}
+
+<div class="container">
+    <div class="modal-header" style="align-items:center;color:#222">
+        <h4 class="modal-title" id="myModalLabel">Change User Detail</h4>
+    </div>
+
+    <div class="row">
+        <div class="col-5">
+            <div class="modal-body" style="color: #222 !important;font-weight: 500 !important;">
+
+                <div class="form-group" style="display:none" id="labelmsg">
+                    <label id="returnmsg" style="color:red"></label>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label for="UserId">UserId</label>
+                    <input type="text" class="form-control" id="userid" value="@Session["UserID"].ToString()" />
+                </div>
+                @* <div class="form-group" style="display:none">
+                        <label for="oldPass">OldPass</label>
+                        <input type="password" class="form-control" id="OldPass" value=@Session["Password"].ToString() />
+                    </div>*@
+                <div class="form-group">
+                    <label for="UserName">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="User Name" value=@Session["Username"].ToString() disabled />
+                </div>
+                <div class="form-group">
+                    <label for="OldPassword">Old Password</label>
+                    <input type="password" class="form-control" id="oldpassword" placeholder="Old Password" />
+                </div>
+                <div class="form-group">
+                    <label for="New Password">New Password</label>
+                    <input type="password" class="form-control" id="newpassword" placeholder="New Password" />
+                </div>
+                <div class="form-group">
+                    <label for="confrim Password">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmpassword" placeholder="Confirm Password" />
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="btnAdd" onclick="updatePassword()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+    function updatePassword() {
+
+        var newPassword = $('#newpassword').val();
+        var confirmPassword = $('#confirmpassword').val();
+
+        var OldPass = $('#OldPass').val();
+        var OldPassword = $('#oldpassword').val();
+
+        //if (OldPass != OldPassword) {
+
+        //    document.getElementById('returnmsg').innerHTML = 'Old password does not match';
+        //    $('#labelmsg').css('display', 'block');
+
+        //    return;
+        //}
+
+        if (newPassword != confirmPassword) {
+
+            document.getElementById('returnmsg').innerHTML = 'New password does not match';
+            $('#labelmsg').css('display', 'block');
+
+            return;
+        }
+
+        else {
+
+               var empObj = {
+                   UserId: $('#userid').val(),
+                   Username: $('#username').val(),
+                   Password: $('#oldpassword').val(),
+                   NewPassword: $('#newpassword').val()
+           };
+                    $.ajax({
+                        url: '@Url.Action("UpdateUserDetail", "Home")',
+                        // url: "/Home/Update",
+                        data: JSON.stringify(empObj),
+                        type: "POST",
+                        cache: false,
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            if (result == 1) {
+                                document.getElementById('returnmsg').innerHTML = 'User detail updated successfully.';
+                                $('#labelmsg').css('display', 'block');
+
+                                $('#newpassword').val("");
+                                $('#oldpassword').val("");
+                                $('#confirmpassword').val("");
+                            }
+                            else {
+                                document.getElementById('returnmsg').innerHTML = 'Old password does not match';
+                                $('#labelmsg').css('display', 'block');
+                            }
+
+
+
+                        },
+                        error: function (errormessParentMenuId) {
+                            alert(errormessParentMenuId.responseText);
+                        }
+                    });
+                }
+
+        }
+
+</script>

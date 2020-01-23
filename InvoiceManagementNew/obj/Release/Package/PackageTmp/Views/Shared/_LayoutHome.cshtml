@@ -1,0 +1,302 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Invoice Management Test</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Conference project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/styles/bootstrap4/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/DataTableCss/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Exm/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/Exm/buttons.dataTables.min.css" rel="stylesheet" />
+
+
+    <link href="~/Content/plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/OwlCarousel2-2.2.1/owl.carousel.css" rel="stylesheet" />
+    <link href="~/Content/plugins/OwlCarousel2-2.2.1/owl.theme.default.css" rel="stylesheet" />
+    <link href="~/Content/plugins/OwlCarousel2-2.2.1/animate.css" rel="stylesheet" />
+
+    <link href="~/Content/styles/main_styles.css" rel="stylesheet" />
+    <link href="~/Content/styles/responsive.css" rel="stylesheet" />
+    <link href="~/Content/css/Custom.css" rel="stylesheet" />
+
+    <link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/JsNew/jquery-3.2.1.min.js"></script>
+
+    <style>
+        body {
+            line-height: 1;
+        }
+
+        .home {
+            width: 100%;
+            height: unset !important;
+        }
+
+        .header {
+            position: unset !important;
+        }
+
+        .header_nav_container {
+            background-color: #eff1f2;
+        }
+
+        .active_Header {
+            /*background-color: #4867c0;
+            background-image: linear-gradient(to right, #4867c0, #329fec);
+            background: #4867c0;
+            background: linear-gradient(to right, #4867c0, #329fec);*/
+            background-color: #486767;
+            background-image: linear-gradient(to right, #4867A6, #329fec);
+            background: #4867c0;
+            background: linear-gradient(to right, #486752, #329FB8);
+        }
+
+        .header_nav_content {
+            height: 70px;
+        }
+
+        .main_nav a {
+            font-size: 15px !important;
+        }
+
+        .main_nav ul li a {
+            line-height: 70px;
+            padding-right: 6px !important;
+        }
+
+        .active_Header a {
+            color: white !important;
+        }
+
+        .main_nav ul li:not(:last-child) {
+            margin-right: 0px !important;
+        }
+
+        .container {
+            max-width: 1550px !important;
+        }
+
+        .form-control {
+            color: black;
+        }
+
+        table tr th {
+            background-color: darkgray;
+            color: floralwhite;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background-color: dimgray;
+            border-color: dimgray;
+            font-weight: 500;
+        }
+
+            .btn-primary :hover {
+                background-color: none !important;
+            }
+
+        .header_top_content {
+            height: 105px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 38px !important;
+        }
+
+        .footer_extra_content {
+            height: 90px;
+        }
+    </style>
+</head>
+<body>
+    <div class="super_container">
+
+        <!-- Menu -->
+        <div class="menu trans_500">
+            <div class="menu_content d-flex flex-column align-items-center justify-content-center text-center">
+                <div class="menu_close_container"><div class="menu_close"></div></div>
+                <div class="logo menu_logo">
+                    <a href="#">
+                        <div class="logo_container d-flex flex-row align-items-start justify-content-start">
+                            <div class="logo_image"><div><img src="images/logo.png" alt=""></div></div>
+                            <div class="logo_content">
+                                <div class="logo_text logo_text_not_ie">A2C Services Ltd</div>
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="menu_social">
+                <p>
+                    Log-out icon on a button:
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-log-out"></span> Log out
+                    </button>
+                </p>
+            </div>
+        </div>
+
+        <!-- Home -->
+
+        <div class="home">
+            <header class="header" id="header">
+                <div>
+                    <div class="header_top">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="header_top_content d-flex flex-row align-items-center justify-content-start">
+                                        <div>
+                                            <a href="#">
+                                                <div class="logo_container d-flex flex-row align-items-start justify-content-start">
+                                                    <div class="logo_image" style="width:200px">
+                                                        <img src="~/images/CompanyLogo.PNG" />
+                                                    </div>
+                                                    @*<div class="logo_content" style="line-height:69px">
+                                                            <div class="logo_sub" style="font-size:22px!important;color:#000">Re-use the best way to recycle</div>
+                                                        </div>*@
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="header_social ml-auto">
+                                            <span style="color:black">Logged in user : </span>
+                                            <span id="loggedInUser" style="padding:3px;color:black; font-weight:600!important; font-size:18px!important">@Session["Username"].ToString()</span>
+                                            <button type="button" class="btn btn-default btn-sm" style="cursor:pointer;background-color:paleturquoise;font-size:15px" onclick="location.href='@Url.Action("Logout", "Home")'">
+                                                <span class="glyphicon glyphicon-log-out"></span> Log out
+                                            </button>
+                                        </div>
+                                        <div class="hamburger ml-auto"><i class="fa fa-bars" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="header_nav" id="header_nav_pin">
+                        <div class="header_nav_inner">
+                            <div class="header_nav_container">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="header_nav_content d-flex flex-row align-items-center justify-content-start">
+                                                <nav class="main_nav">
+                                                    <ul>
+                                                        @foreach (var item in InvoiceManagementNew.Models.UserRoleModels.Userpagedetails(Session["Username"].ToString(), Session["UserType"].ToString()))
+                                                        {
+                                                         
+                                                            <li id="menu" class="@(ViewContext.RouteData.Values["Action"].ToString() == item.Page_name.ToString() ? "active_Header" : "")" data-raofz="0">
+                                                                <a href='@Url.Action(item.Page_name.ToString(), item.ActionName)' data-raofz="14" role="link">@item.MenuLink</a>
+                                                            </li>
+                                                   
+
+                                                        }
+
+
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search_container">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="search_content d-flex flex-row align-items-center justify-content-end">
+                                                <form action="#" id="search_container_form" class="search_container_form">
+                                                    <input type="text" class="search_container_input" placeholder="Search" required="required">
+                                                    <button class="search_container_button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div id="body" style="min-height:687px;">
+            @RenderBody()
+        </div>
+
+        <footer class="footer" style="position:relative;bottom:0">
+            <div class="footer_extra">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="footer_extra_content d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-start justify-content-center">
+                                <div class="footer_social">
+                                </div>
+                                <div class="footer_extra_right ml-lg-auto text-lg-right">
+                                    <div class="footer_extra_links">
+                                        <ul>
+                                            <li><a href="contact.html">Contact us</a></li>
+                                            <li><a href="#">Sitemap</a></li>
+                                            <li><a href="#">Privacy</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="copyright">
+
+                                        Copyright &copy;
+                                        <script>document.write(new Date().getFullYear());</script> All rights reserved  by <a href="http://www.a2c.co.uk/" target="_blank">A2C Services LLC</a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script src="~/Content/styles/bootstrap4/popper.js"></script>
+    <script src="~/Content/styles/bootstrap4/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/JsNew/custom.js"></script>
+
+    <script src="~/Scripts/DataTableJs/dataTables.bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTableJs/jquery.dataTables.min.js"></script>
+    <script src="~/Content/Exm/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/js/select2.min.js"></script>
+
+    <script src="~/content/Exm/jquery.datatables.min.js"></script>
+    <script src="~/content/Exm/datatables.buttons.min.js"></script>
+
+    <script src="~/Scripts/DataTableJs/dataTables.fixedColumns.min.js"></script>
+
+    <script src="~/content/Exm/buttons.flash.min.js"></script>
+    <script src="~/content/Exm/jszip.min.js"></script>
+    <script src="~/content/Exm/pdfmake.min.js"></script>
+    <script src="~/content/Exm/vfs_fonts.js"></script>
+    <script src="~/content/Exm/buttons.html5.min.js"></script>
+    <script src="~/content/Exm/buttons.print.min.js"></script>
+
+    <script src="~/Content/plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+    <script src="~/Content/plugins/easing/easing.js"></script>
+    <script src="~/Content/plugins/parallax-js-master/parallax.min.js"></script>
+
+    <link href="~/Content/css/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/js/jquery-ui.js"></script>
+
+
+</body>
+</html>

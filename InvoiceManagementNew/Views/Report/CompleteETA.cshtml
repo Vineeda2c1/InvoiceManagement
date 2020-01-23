@@ -1,0 +1,138 @@
+﻿
+@model IEnumerable<InvoiceManagementNew.Models.InvoiceDetailsModel>
+
+
+@{
+    ViewBag.Title = "InvoiceDetails";
+}
+
+}
+<style>
+    .form-control {
+        color: black !important;
+    }
+
+    .dataTables_paginate {
+        margin-bottom: 30px !important;
+    }
+
+        .dataTables_paginate a {
+            cursor: pointer;
+            padding: 6px 9px !important;
+            background: #ddd !important;
+            border-color: #ddd !important;
+        }
+
+    .dataTables_length label {
+        font-size: 13px !important;
+    }
+
+    .dataTables_length select {
+        padding: 1px 5px !important;
+    }
+
+    .btn {
+        padding: 1px 5px !important;
+    }
+
+    .table td {
+        padding: 5px;
+        font-size: 12px;
+    }
+
+    .form-control {
+        padding: 2px 5px;
+    }
+
+    table tr th {
+        background-color: #117a8b;
+        font-size: 12px;
+        padding: 10px 12px !important;
+    }
+
+    table tr td h5 {
+        margin: 4px;
+    }
+
+    button.dt-button, div.dt-button, a.dt-button {
+        line-height: 9px !important;
+        font-size: 12px !important;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(1.5rem + 1px);
+    }
+</style>
+<h2>CompleteETA</h2>
+<div class="container">
+    @using (Html.BeginForm("CompleteEta", "Report", FormMethod.Post, new
+    {
+        enctype = "multipart/form-data"
+    }))
+    {
+        <div class="row">
+            <div class="col-lg-7" style="margin-top:20px">
+                <table class="table tableheader">
+                    <tr>
+                        <td style="width:8%"><h5><b></b></h5></td>
+                        <td style="width:16%">
+                            <div>
+                                <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+
+                            </div>
+                        </td>
+                       
+                        <td style="width:17%;line-height:37px">
+                            <input type="submit" name="Submit" value="Submit" class="btn btn-primary" id="btnsubmit" style="padding: 4px 16px!important" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+
+    <div class="col-lg-12">
+        <table id="ProductDetailtbl" class="table table-bordered table-hover" style="text-align:center">
+            <thead class="tableheader">
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Total Amount</th>
+                    <th>Received Amount</th>
+                    <th>ETA</th>
+                    
+                
+                </tr>
+            </thead>
+            <tbody class="tbody" style=" color: #000 !important;font-weight: 500 !important;">
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a class="btn btn-info" href="@Url.Action("CompleteETA", "Report",new {FromDate=item.FromDate,Todate=item.ToDate })"> Detail</a>
+                        </td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.InvoiceAmount</td>
+                        <td>@item.RecieveAmt</td>
+                        <td>@item.ETADate</td>
+                                        
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<script>
+
+    
+     
+            $(function() {
+                $('input[name="daterange"]').daterangepicker({
+                    opens: 'left'
+                }, function (start, end, label) {
+                    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                });
+            });
+</script>

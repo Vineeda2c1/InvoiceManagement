@@ -1,0 +1,604 @@
+﻿
+@model IEnumerable<InvoiceManagementNew.Models.InvoiceDetailsModel>
+
+
+    @{
+        ViewBag.Title = "InvoiceDetails";
+    }
+
+}
+
+<style>
+    body {
+        font-size: 12px !important;
+        color: black !important
+    }
+    .modal-open .modal {
+        overflow-x: hidden !important;
+        overflow-y: hidden !important;
+    }
+    .form-control {
+        color: black !important;
+        font-size: 12px !important;
+    }
+
+    .dataTables_paginate {
+        margin-bottom: 30px !important;
+    }
+
+        .dataTables_paginate a {
+            cursor: pointer;
+            padding: 6px 9px !important;
+            background: #ddd !important;
+            border-color: #ddd !important;
+        }
+
+    .btn {
+        padding: 2px 8px !important;
+        font-size: 12px;
+    }
+
+    .table td {
+        padding: 2px 7px 1px 1px;
+    }
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        /* margin-bottom: 1rem; */
+        background-color: transparent;
+    }
+
+    .form-control {
+        padding: 1px 5px 2px 10px;
+    }
+
+    .form-TextArea {
+        width: 100%;
+        height: 25px
+    }
+
+    table tr th {
+        background-color: #117a8b;
+        position: relative;
+        padding: 10px 10px !important;
+        font-size: 12px !important;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(1.2rem + 2px);
+    }
+
+    .blogcommentlist {
+        /*margin-bottom: 30px;*/
+        border-bottom: 1px solid #dedede;
+    }
+
+    .smbloghed {
+        background-color: #082642;
+        color: #fff;
+        margin: 0;
+        padding: 12px 10px;
+        font-size: 15px;
+        line-height: 15px;
+        text-transform: uppercase;
+    }
+
+    .blogcomments > span > p {
+        color: #7B797C;
+        font-size: 18px;
+        text-align: justify;
+        line-height: 20px;
+        font-family: 'Raleway', sans-serif;
+        display: inline !important;
+        font-style: normal;
+        margin-left: 20px;
+    }
+
+    .blogcomments {
+        position: relative;
+        padding: 10px 0 10px 14px;
+        border-bottom: 1px solid #dedede;
+        width: 739px;
+        height: 130px;
+        overflow: scroll;
+        margin-bottom: 3px;
+    }
+
+        .blogcomments > span {
+            font-size: 11px;
+            color: #EB1C26;
+            font-style: italic;
+        }
+
+            .blogcomments > span > b {
+                color: #343233;
+                font-weight: 400;
+                font-size: 15px
+            }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .blogcount {
+        border: 1px solid #dedede;
+        margin-bottom: 20px;
+    }
+
+    .blogcategories > span {
+        position: relative;
+        display: inline-block;
+        padding: 10px 40px 10px 10px;
+        background-color: #dedede;
+        color: #022430;
+        margin: 0 10px 10px 0;
+    }
+
+    .blogcategories {
+        padding: 20px 20px 10px;
+    }
+
+    .btn .badge {
+        left: 20px;
+        position: relative;
+        top: -20px;
+        color: red;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+    }
+
+    .blogcategories > span > img {
+        display: inline-block;
+        width: 20px;
+        height: 70px;
+        position: absolute;
+        left: 2px;
+        top: -13px;
+    }
+
+    .modal-header .close {
+        padding: 11px !important;
+        margin: -15px -15px -15px auto;
+        position: relative;
+        top: 10px;
+        right: 15px;
+    }
+
+    .modal-header {
+        padding: 8px !important;
+    }
+
+    .modal-body {
+        padding: 10px 10px 3px 10px !important;
+    }
+
+    .modal-footer {
+        padding: 5px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .popupCloseButton {
+        background-color: #fff;
+        border: 2px solid #999;
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: arial;
+        position: absolute;
+        top: -365px;
+        right: -620px;
+        font-size: 20px;
+        line-height: 16px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+    }
+    .dataTables_wrapper {
+        padding: 0px 74px 0px 27px !important;
+    }
+   
+</style>
+<div class="container-fluid">
+    <div class="row" style="margin-top:20px; margin-bottom:8px">
+        <div class="col-sm-12  col-md-12 col-lg-12">
+            <div style="width:100%;text-align:right">
+                <button id="Addorder" style="display:none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#OrderModal">AddInvoiceDetails</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-12  col-md-12col-lg-12" style="padding-left:40px">
+            <div class="popupCloseButton">X</div>
+
+            <table id="InvoiceDetails" style="text-align:center;z-index: 99999;" class="table table-bordered">
+                <thead class="tableheader">
+
+                    <tr>
+                        <th style="width:5%;display:none">Invoice No</th>
+                        <th style="width:5%">Invoice No</th>
+                        <th style="width:5%">InvoiceType</th>
+                        <th style="width:20%">Customer</th>
+                        <th style="width:15%">Invoice Date</th>
+                        <th style="width:15%">Receieved Date</th>
+                        <th style="width:5%">Invoice Amount</th>
+                        <th style="width:5%">Receieved Amount</th>
+                        <th style="width:5%">Pending Amount</th>
+                        <th style="width:25%">Comment</th>
+                        <th style="width:10%">Download File</th>
+                        <th style="width:5%"> Accept</th>
+                        <th id="Detailshdr" style=" width:5%">Detail</th>
+                        @*<th style=" width:5%">Add Comment</th>*@
+                        @*<th id="Receivehdr" style=" width:15% ;display:none">Receive</th>*@
+
+                    </tr>
+
+                </thead>
+                <tbody class="tbody" style=" color: #000 !important;font-weight: 500 !important;">
+                    @foreach (var item in Model)
+                    {
+
+                    <tr>
+                        @*<td id="Orderno" style=" display:none">*@
+                        @*<button class="btn btn-info btn-default" onclick=" LoadProductDetails(@item.Orderid)">Detail</button>*@
+
+                        @*</td>*@
+                        <td class="Ino" id="InvOrderNo" style="display:none">
+                            @item.InvOrderNo
+                        </td>
+
+                        <td class="nr" id="tdInvNo">@item.InvoiceNo</td>
+                        <td>@item.InvoiceType</td>
+                        <td>@item.CustomerName</td>
+
+                        <td>@item.InvoiceDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.RecivingDate.ToString("dd/MM/yyyy")</td>
+                        <td class="na" id="tdInvAmt">@item.InvoiceAmount</td>
+                        <td>@item.RecieveAmt</td>
+                        <td>@item.PendingAmount</td>
+                        <td>@item.InvComment</td>
+                     
+                        <td><a class="ui-btn" data-val="abc" target="_blank" href="/Content/Uploads/@item.UploadFile"><img  style="width: 40px; height: 38px;"src="/images/@item.Icon"></a> </td>
+
+                        <td class="Accept">
+                            <button class="btn btn-info btn-default Details " onclick=" AcceptInvoiceDetails(@item.Status_id)">Accept</button>
+
+                            @*<a id="Details" class="btn btn-info btn-default" href="" data-raofz="14" role="link" target="_blank">Detail</a>*@
+                        </td>
+                        <td>
+                            <button class="btn btn-info btn-default" data-toggle="modal" data-target="#TransactionModal" onclick=" LoadTransactionDetails(@item.InvOrderNo)">Detail</button>
+                        </td>
+
+
+
+                        @*<td>
+            <button id="btnComment" class="btn btn-info btn-default Receive" data-toggle="modal" data-target="#CommentModal" onclick="LoadReceivemodel(@item.InvOrderNo)">Comment</button>
+        </td>*@
+
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style=" top:154px;right:195px; color:#000!important;font-weight:400!important" id="TransactionModal" data-keyboard="false" data-backdrop="static" >
+        <div class="modal-dialog modal-sm" style="max-width:600px; ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="">
+                        &times;
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <table id="InvoiceOrderTbl" class="table table-bordered" style="width:400px;text-align:center;display:none;">
+                        <thead class="tableheader">
+                            <tr>
+                                <th style="width:10%">OrderNO</th>
+                                <th style="width:15%">Amt Type</th>
+                                <th style="width:15%">Received Amount</th>
+                                <th style="width:10%">Adjusted Value</th>
+                                <th style="width:20%">Recieved date</th>
+                                <th id="thComment" style="width:25%;display:none">Comment</th>
+                                <th id="btnAddComment" style="width:20%;display:none ">Add Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody class="TransactionDetail" style=" color: #000 !important;font-weight: 500 !important;"></tbody>
+
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+
+                    @*<button type="button" class="btn btn-primary"
+                            data-dismiss="modal">
+                        Close
+                    </button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="modal fade" tabindex="-1" style="  top:154px;right:195px ;color:#000!important;font-weight:300!important" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="CommentModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm" style="max-width:300px; ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" onclick="">
+                                &times;
+                            </button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <table id="" class="table table-bordered">
+                                    <thead class="tableheader">
+                                        <tr>
+
+                                            <th style="width:35%">Comment</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tablebodystyle">  </tbody>
+                                    <tfoot>
+
+                                        <tr>
+                                            <td style="display:none"><input class="form-control" type="hidden" id="InvTransID" /></td>
+                                            <td><textarea class="form-TextArea" name="comment" placeholder="Comment" id="Comment" style="margin-top: 0px; margin-bottom: 0px; height: 95px;"></textarea></td>
+
+                                            @*<td><input type="button" id="btnAddDetails" value="Add" class="btn" /></td>*@
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" id="btnAddComment" value="Submit" class="btn btn-primary" onclick="Addcomment()">Add Comment</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000!important;font-weight:400!important" id="OrderModal"
+                 data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog modal-sm" style="max-width:684px">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                &times;
+                            </button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <table id="OrderInvoicetbl" class="table table-bordered">
+                                    <thead class="tableheader">
+                                        <tr>
+                                            <th style=" width:15%">Invoice No</th>
+                                            <th style=" width:25%">Customer Name</th>
+                                            <th style=" width:20%">Invoice Date</th>
+                                            <th style=" width:20%">Invoice Amount</th>
+                                            <th style=" width:20%">Delivery date</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tablebodystyle">  </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><input class="form-control" type="number" id="InvoiceNO" /></td>
+                                            <td>
+                                                <input class="form-control" type="text" id="CustomerName" />
+                                            </td>
+                                            <td><input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="InvoiceDate" placeholder="InvoiceDate" /></td>
+                                            <td><input class="form-control" type="number" id="InvoiceAmt" /></td>
+                                            <td><input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="DeliveryDate" placeholder="DeliveryDate" /></td>
+
+
+                                            <td><input type="button" id="btnAdd" value="Add" class="btn" /></td>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+
+                            <button type="button" id="btnSave" value="Submit" class="btn btn-primary" onclick="SubmitInvoiceDetails()">Submit</button>
+
+                            <button type="button" class="btn btn-primary"
+                                    data-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+
+    $(document).ready(function () {
+
+        $('#InvoiceDetails').DataTable({
+            "order": [],
+            "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false,
+                "pageLength": 25
+            }
+            ]
+        });
+
+
+
+    });
+
+    $(document).on("click", "#InvoiceOrderTbl button#btnComment", function () {
+        var $item = $(this).closest("tr")   // Finds the closest row <tr>
+            .find(".ts")     // Gets a descendent with class="nr"
+            .text();         // Retrieves the text within <td>
+        $("#InvTransID").html($item);
+
+    });
+    function AcceptInvoiceDetails(Status_id) {
+
+        var Category = 1;
+        var Statusid = Status_id;
+        //Loop through the Table rows and build a JSON array.
+        var Invoicedetails = new Array();
+          jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("AcceptInvoicedetails", "Home")',
+              data: JSON.stringify({ 'Statusid': Statusid}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (r) {
+
+                if (r == 1) {
+                    alert("Accepted Succesfully")
+                    window.location = "@Url.Action("InvoiceDetails", "Home")";
+                }
+                else if (r == 1) {
+                    alert("Not Accepted")
+                }
+            }
+        });
+    }
+
+
+    function Addcomment() {
+        var row = $(btnComment).closest("TR");
+        var Invoice = {};
+
+        var InvoiceComment = new Array();
+        Invoice.TransactionId = $("#InvTransID").text();
+        Invoice.InvComment = $("#Comment").val();
+        InvoiceComment.push(Invoice);
+
+        if (InvoiceComment.length == 0) {
+            alert('Please add record line');
+
+            return;
+        }
+        console.log(InvoiceComment);
+          jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("Addcomment", "Home")',
+              data: JSON.stringify({ 'InvoiceComment': InvoiceComment}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (r) {
+
+                if (r == 1) {
+                    alert("Added Succesfully")
+                    window.location = "@Url.Action("InvoiceDetails", "Home")";
+                }
+                else if (r == 1) {
+                    alert("Not Added")
+                }
+            }
+        });
+    }
+
+    function GetInvoiceCommentByroles(Username) {
+   $.ajax({
+            url: '@Url.Action("CommentRoles", "Home")',
+       type: "GET",
+       data: { 'Username': Username},
+       contentType: "application/json;charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+
+           if (result.length > 0) {
+               $(".tdInvComment").show();
+               $(".tdComment").hide();
+               $("#btnAddComment").hide();
+               $("#thComment").show();
+           }
+           else {
+               //$("#Addorder").hide();
+               //$(".Uploadinv").hide();
+           }
+
+       },
+       error: function (errormessParentMenuId) {
+           $(".tdInvComment").hide();
+           $(".tdComment").show();
+           $("#btnAddComment").show();
+           $("#thComment").hide();
+           $(".Comment").show();
+
+
+
+           //$("#Addorder").hide();
+       }
+
+
+
+
+        });
+    }
+
+
+
+
+      function LoadTransactionDetails(OrderNo) {
+         var stsid = '';
+         var html = '';
+          $("#InvoiceOrderTbl TBODY").empty();
+          $('#InvoiceOrderTbl').css('display', 'inline');
+                    $.ajax({
+                        url: '@Url.Action("InvoiceTransactionDetails", "Home")',
+                        type: "GET",
+                        data: { 'OrderNo': OrderNo },
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            var value = result.length;
+
+
+                   // var t = document.getElementsByName("DynamicTextBox");
+                            $.each(result, function (key, item) {
+                         html += '<tr> <td  class="ts" id="TransId" style=" display:none">' + item.TransactionId;
+                        html += '<td id="Orderno">' + item.InvOrderNo+ ' </td>';
+                        html += '<td> ' + item.InvType + '</td><td>' + item.RecieveAmt + ' </td> <td> ' + item.AdjustmentValue + ' </td>  ';
+
+                                html += '<td>' + item.Reciving_Date + '</td> ';
+                                html += '<td class="tdInvComment" style="display:none">' + item.InvComment + '</td> ';
+                                html += '<td class="tdComment" style="display:none"><button id = "btnComment"  class="btn btn-info btn-default ReceiveComment "  data-toggle="modal" data-target="#CommentModal" > Comment</button ></td ></tr> ';
+
+                    });
+                            console.log(html);
+                            $("#InvoiceOrderTbl TBODY").html(html);
+                            var Username = $("#loggedInUser").text();
+                            GetInvoiceCommentByroles(Username);
+                        }
+
+         });
+
+     }
+
+
+            </script>
+
+

@@ -1,0 +1,20 @@
+﻿body {
+}
+
+.tableheader {
+    background-color: #f3f3f3;
+    color: #222
+}
+.tablebodystyle {
+    color: #000 !important;
+    font-weight: 500 !important;
+}
+.Homeheaderlink {
+ font-weight:700!important;
+ font-size:16px!important;
+}
+
+.main_nav a {
+    font-weight: 700 !important;
+    font-size: 16px !important;
+}

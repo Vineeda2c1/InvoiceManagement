@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+}
+
+<style>
+    .panel-heading {
+        height: 50px;
+    }
+    .container > h2 {
+        font-size: 17px;
+        font-weight: 800;
+        color: #222;
+        text-align: center;
+        padding: 10px;
+    }
+</style>
+<div class="container">
+    <h2>Reports</h2>
+    <div class="panel-group">
+
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">Complete ETA Report</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12"><a class="btn btn-info active_Header btncust" href="/Report/CompleteETA">Show Details</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">MonthWise Report</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12"><a class="btn btn-info active_Header btncust" href="/Home/ReportByProductionDetail">Show Details</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">Over Due Report</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12"><a class="btn btn-info active_Header btncust" href="/Home/RankingReportDetail">Show Details</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+</div>

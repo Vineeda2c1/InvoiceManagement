@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "PageNotfound";
+    //    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    Layout = null;
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+}
+<head>
+    <title>InvoiceManagement Test</title>
+
+    <style>
+        h1 {
+            color: red !important;
+            font-family: "Verdana, Geneva, sans-serif";
+            font-size: 40px !important;
+        }
+
+        p {
+            text-align: right;
+        }
+    </style>
+</head>
+@*<h2>Not A Valid User</h2>*@
+<body>
+    <div class="container">
+
+        <div class="jumbotron">
+            <center>
+
+                <h1>The User has no acess to this Page.Please contact Administrator</h1>
+            </center>
+
+            <p><a href="~/Home/LoginPage">Back to Login</a></p>
+        </div>
+    </div>
+
+
+</body>

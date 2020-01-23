@@ -1,0 +1,970 @@
+﻿@model IEnumerable<InvoiceManagementNew.Models.InvoiceDetailsModel>
+@{
+    ViewBag.Title = "OrderInvoice";
+}
+
+<style>
+    body {
+        font-size: 12px !important;
+        color: black !important
+    }
+
+    .form-control {
+        color: black !important;
+        font-size: 12px !important;
+    }
+
+    .dataTables_paginate {
+        margin-bottom: 30px !important;
+    }
+
+        .dataTables_paginate a {
+            cursor: pointer;
+            padding: 6px 9px !important;
+            background: #ddd !important;
+            border-color: #ddd !important;
+        }
+
+    .btn {
+        padding: 2px 8px !important;
+        font-size: 12px;
+    }
+
+    .table td {
+        padding: 2px 7px 1px 1px;
+    }
+
+    .table {
+        width: 100%;
+        max-width: 100%;
+        /* margin-bottom: 1rem; */
+        background-color: transparent;
+    }
+
+    .form-control {
+        padding: 1px 5px 2px 10px;
+    }
+
+    .form-TextArea {
+        width: 100%;
+        height: 33px
+    }
+
+    table tr th {
+        background-color: #117a8b;
+        position: relative;
+        padding: 10px 8px !important;
+        font-size: 13px !important;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(1.2rem + 19px);
+    }
+
+    .blogcommentlist {
+        /*margin-bottom: 30px;*/
+        border-bottom: 1px solid #dedede;
+    }
+
+    .smbloghed {
+        background-color: #082642;
+        color: #fff;
+        margin: 0;
+        padding: 12px 10px;
+        font-size: 15px;
+        line-height: 15px;
+        text-transform: uppercase;
+    }
+
+    .blogcomments > span > p {
+        color: #7B797C;
+        font-size: 18px;
+        text-align: justify;
+        line-height: 20px;
+        font-family: 'Raleway', sans-serif;
+        display: inline !important;
+        font-style: normal;
+        margin-left: 20px;
+    }
+
+    .blogcomments {
+        position: relative;
+        padding: 10px 0 10px 14px;
+        border-bottom: 1px solid #dedede;
+        width: 739px;
+        height: 130px;
+        overflow: scroll;
+        margin-bottom: 3px;
+    }
+
+        .blogcomments > span {
+            font-size: 11px;
+            color: #EB1C26;
+            font-style: italic;
+        }
+
+            .blogcomments > span > b {
+                color: #343233;
+                font-weight: 400;
+                font-size: 15px
+            }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .blogcount {
+        border: 1px solid #dedede;
+        margin-bottom: 20px;
+    }
+
+    .blogcategories > span {
+        position: relative;
+        display: inline-block;
+        padding: 10px 40px 10px 10px;
+        background-color: #dedede;
+        color: #022430;
+        margin: 0 10px 10px 0;
+    }
+
+    .blogcategories {
+        padding: 20px 20px 10px;
+    }
+
+    .btn .badge {
+        left: 20px;
+        position: relative;
+        top: -20px;
+        color: red;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+    }
+
+    .blogcategories > span > img {
+        display: inline-block;
+        width: 20px;
+        height: 70px;
+        position: absolute;
+        left: 2px;
+        top: -13px;
+    }
+
+    .modal-header .close {
+        padding: 11px !important;
+        margin: -15px -15px -15px auto;
+        position: relative;
+        top: 10px;
+        right: 15px;
+        font-size: large;
+    }
+
+    .modal-header {
+        padding: 8px !important;
+    }
+
+    .modal-body {
+        padding: 10px 10px 3px 10px !important;
+    }
+
+    .modal-footer {
+        padding: 5px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .popupCloseButton {
+        background-color: #fff;
+        border: 2px solid #999;
+        border-radius: 50px;
+        cursor: pointer;
+        display: inline-block;
+        font-family: arial;
+        position: absolute;
+        top: -365px;
+        right: -620px;
+        font-size: 20px;
+        line-height: 16px;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row" style="margin-top:20px; margin-bottom:8px">
+        <div class="col-sm-11">
+            <div style="width:100%;text-align:right">
+                <button id="Addorder" style="display:none" type="button" class="btn btn-primary" data-toggle="modal" data-target="#OrderModal">AddInvoiceDetails</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-11" style="padding-left:30px">
+            <div class="popupCloseButton">X</div>
+
+            <table id="OrderDetails" style="text-align:center;" class="table table-bordered">
+                <thead class="tableheader">
+
+                    <tr>
+
+                        <th style="width:5%">Invoice No</th>
+                        <th style="width:5%">InvoiceType</th>
+                        <th style="width:18%">Customer</th>
+                        <th style="width:10%">Invoice Date</th>
+                        <th style="width:5%">Invoice Amount</th>
+                        <th style="width:5%">Received Amount</th>
+                        <th style="width:5%">Pending Amount</th>
+                        <th style="width:10%">Deleivery Date</th>
+                        <th class="hdrETA" style="width:5%; display:none">ETA Date</th>
+                        <th style="width:5%">Pending Days</th>
+                        <th id="Uploadhdr" style=" width:8%; display:none">FileName</th>
+                        <th id="Updhdr" style="width:5%; display:none">Upload Invoice</th>
+                        <th id="Detailshdr" style=" width:6%;display:none">Detail</th>
+                        <th id="Receivehdr" style=" width:8%;display:none">Receive</th>
+                        <th id="ETAhdr" style="width:5%;display:none"> ETA</th>
+
+
+                    </tr>
+
+                </thead>
+                <tbody class="tbody" style=" color: #000 !important;font-weight: 500 !important;">
+
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            @*<td id="Orderno" style=" display:none">*@
+                            @*<button class="btn btn-info btn-default" onclick=" LoadProductDetails(@item.Orderid)">Detail</button>*@
+
+                            @*</td>*@
+                            @*<td id="OrderNo" style="display:none">
+                                    @item.InvOrderNo
+                                </td>*@
+
+                            <td class="nr" id="tdInvNo">@item.InvoiceNo</td>
+                            <td>@item.InvoiceType</td>
+                            <td>@item.CustomerName</td>
+
+                            <td>@item.InvoiceDate.ToString("dd/MM/yyyy")</td>
+
+                            <td class="na" id="tdInvAmt">@item.InvoiceAmount</td>
+                            <td>@item.RecieveAmt</td>
+                            <td>@item.PendingAmount</td>
+                            <td>@item.deliverydate.ToString("dd/MM/yyyy")</td>
+                            <td class="TDETA" style="display:none">@item.ETADate.ToString("dd/MM/yyyy")</td>
+                            <td>@item.PendingDays</td>
+
+                            <td class="TDupdfile" style="display:none"><a class="ui-btn" data-val="abc" target="_blank" href="/Content/Uploads/@item.UploadFile"><img src="/images/@item.Icon" style="width: 40px; height: 38px;"></a> </td>
+
+
+                            <td class="Upload" style="display:none">
+                                <button id="btnUpd" style="display:none" class="btn btn-info btn-default btnupload" data-toggle="modal" data-target="#UploadFilesModal"
+                                        onclick=" LoadUploadmodel(@item.InvOrderNo)">
+                                    Upload Invoice
+                                </button>
+                            </td>
+
+                            <td class="Detail" style="display:none">
+                                <button style="display:none" class="btn btn-info btn-default Details " data-toggle="modal" data-target="#TransactionModal" onclick="LoadTransactionDetails(@item.InvOrderNo)">Detail</button>
+                            </td>
+                            <td class="Receiv" style="display:none">
+                                <button id="btnReceive" style="display:none" class="btn btn-info btn-default Receive" data-toggle="modal" data-target="#InvoiceModal" onclick="LoadReceivemodel(@item.InvOrderNo)">Receive</button>
+                            </td>
+                            <td class="Duedate" style="display:none">
+                                <button id="btnETA" style="display:none" class="btn btn-info btn-default ETA" data-toggle="modal" onclick="LoadETAmodel(@item.InvOrderNo)" data-target="#UploadModal"
+                                        onclick="LoadReceivemodel(@item.InvOrderNo)">
+                                    ETA
+                                </button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000!important;font-weight:400!important" id="TransactionModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" style="max-width:600px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="">
+                    &times;
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <table id="InvoiceTransactiontbl" class="table table-bordered" style="width:500px;text-align:center;display:none;">
+                    <thead class="tableheader">
+                        <tr>
+                            <th style="width:10%">Invoice OrderNO</th>
+                            <th style="width:25%">Amt Type</th>
+                            <th style="width:20%">Received Amount</th>
+                            <th style="width:15%">Adjusted Value</th>
+                            <th style="width:30%">Recieved date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="TransactionDetail" style=" color: #000 !important;font-weight: 500 !important;"></tbody>
+
+                </table>
+            </div>
+            <div class="modal-footer">
+
+                @*<button type="button" class="btn btn-primary"
+                            data-dismiss="modal">
+                        Close
+                    </button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" style="color:#000!important;font-weight:300!important" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="InvoiceModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" style="max-width:1000px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="">
+                    &times;
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <table id="" class="table table-bordered">
+                        <thead class="tableheader">
+                            <tr> <td>Invoice No:<span><label type="text" id="InvNo" /></span></td>  <td>Invoice Amount:<span><label type="text" id="InvAmt" /></span></td> </tr>
+                            <tr>
+                                @*<th style="width:5%">Invoice Serial No</th>*@
+                                <th style=" width:15%">Recieve Amount</th>
+
+                                <th style="width:15%">Amount Type</th>
+                                <th id="chqno" style="display:none ;width:10%;  ">ChequeNo</th>
+                                <th id="chqdate" style=" display:none;width:10%; ">ChequeDate</th>
+                                <th style="width:15%">Recieving Date</th>
+                                <th style="width:10%">Adjusted value</th>
+                                <th style="width:35%">Comment</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody class="tablebodystyle">  </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <td style="display:none"><input class="form-control" type="hidden" id="InvOrderNo" /></td>
+                                <td><input class="form-control" type="number" id="ReceiveAmt" /></td>
+                                <td>
+                                    <select class="form-control" id="Amounttype">
+                                        <option value="Cash">Cash</option>
+                                        <option value="Cheque">Cheque</option>
+                                    </select>
+
+                                </td>
+                                <td id="ChqNo" style="display:none"><input id="ChqNumber" style="display:none ;" class="form-control" type="text" placeholder="ChequeNumber" /></td>
+                                <td id="Chqdate" style="display:none"><input id="Chquedate" style="display:none ;" class="form-control" data-date-format="DD MMMM YYYY" type="date" placeholder="InvoiceDate" /></td>
+                                <td><input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="RecievingDate" placeholder="InvoiceDate" /></td>
+                                <td><input class="form-control" type="number" id="AdjustedValue" /></td>
+                                <td><textarea class="form-TextArea" name="comment" placeholder="Comment" id="Comment"></textarea></td>
+
+                                @*<td><input type="button" id="btnAddDetails" value="Add" class="btn" /></td>*@
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" id="btnSave" value="Submit" class="btn btn-primary" onclick=" SubmitInvOrderdetails();">Submit</button>
+
+                @*<button type="button" class="btn btn-primary"
+                            data-dismiss="modal">
+                        Close
+                    </button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="color:#000!important;font-weight:400!important" id="OrderModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" style="max-width:800px">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <form action="/Home/OrderInvoice" method="post" runat="Server" enctype="multipart/form-data">
+
+                <div class="modal-body">
+
+
+                    @using (Html.BeginForm("OrderInvoice", "Home", FormMethod.Post, new
+                    {
+                        enctype = "multipart/form-data"
+                    }))
+                    {
+                        <table id="OrderInvoicetbl" class="table table-bordered">
+                            <thead class="tableheader">
+                                <tr>
+                                    <th style=" width:10%">Invoice No</th>
+                                    <th style=" width:15%">Invoice Type</th>
+                                    <th style=" width:20%">Customer Name</th>
+                                    <th style=" width:15%">Invoice Date</th>
+                                    <th style=" width:10%">Invoice Amount</th>
+                                    <th style=" width:15%">Delivery date</th>
+                                    @* <th style="width:20%">UploadInvoice</th>*@
+
+
+                                </tr>
+                            </thead>
+                            <tbody class="tablebodystyle">  </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><input class="form-control" type="number" id="InvoiceNO" /></td>
+                                    <td>
+                                        <select class="form-control" id="InvoiceType">
+                                            <option value="0">Performa</option>
+                                            <option value="0">Actual</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" type="text" id="CustomerName" />
+                                    </td>
+                                    <td><input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="InvoiceDate" placeholder="InvoiceDate" /></td>
+                                    <td><input class="form-control" type="number" id="InvoiceAmt" /></td>
+                                    <td><input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="DeliveryDate" placeholder="DeliveryDate" /></td>
+
+                                    @*<td><input style=" width:150px" type="file" class="UploadImage" name="postedFile" /></td>*@
+
+                                    <td><input type="button" id="btnAdd" value="Add" class="btn" /></td>
+                                    @*<td>  <button type="button" id="btnSave" value="Submit" class="btn btn-primary" >Add</button></td>*@
+
+                                </tr>
+                            </tfoot>
+
+                        </table>
+                    }
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" id="btnSave" value="Submit" class="btn btn-primary" onclick="SubmitInvoiceDetails()">Add</button>
+
+                    <button type="button" class="btn btn-primary"
+                            data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" style="color:#000!important;font-weight:300!important" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="UploadModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" style="max-width:300px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="">
+                    &times;
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <table id="" class="table table-bordered">
+                        <thead class="tableheader">
+                            <tr>
+
+                                <th style="width:35%">ETA</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="tablebodystyle">  </tbody>
+                        <tfoot>
+
+                            <tr>
+                                <td style="display:none"><input class="form-control" type="hidden" id="ETAInvOrderNo" /></td>
+                                <td>
+                                    <input class="form-control" data-date-format="DD MMMM YYYY" type="date" id="ETA" placeholder="DUE Date" />
+                                </td>
+
+                                @*<td><input type="button" id="btnAddDetails" value="Add" class="btn" /></td>*@
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" id="btnAddETA" value="Submit" class="btn btn-primary" onclick="AddETA()">Submit</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" style="  top:154px;right:195px ;color:#000!important;font-weight:300!important" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" id="UploadFilesModal" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-sm" style="max-width:300px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="">
+                    &times;
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <form action="/Home/OrderInvoice" method="post" runat="Server" enctype="multipart/form-data">
+                    @using (Html.BeginForm("OrderInvoice", "Home", FormMethod.Post, new
+                    {
+                        enctype = "multipart/form-data"
+                    }))
+                    {
+                        <table id="" class="table table-bordered">
+                            <thead class="tableheader">
+                                <tr>
+
+                                    <th style="width:35%">UploadInvoice</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="tablebodystyle">  </tbody>
+                            <tfoot>
+
+                                <tr>
+                                    <td style="display:none">
+                                        @*<input class="form-control" type="hidden" id="UploadInvOrderNo" />*@
+                                        @Html.Hidden("UploadInvOrderNo", new { @id = " UploadInvOrderNo" })
+                                    </td>
+
+                                    <td>
+                                        <input style=" width:150px" type="file" class="UploadImage" name="postedFile" />
+
+                                    </td>
+
+                                    @*<td><input type="button" id="btnAddDetails" value="Add" class="btn" /></td>*@
+                                </tr>
+                                <tr><td> <button type="submit" name="Submit" value="Submit" class="btn btn-primary">Submit</button></td></tr>
+                            </tfoot>
+
+                        </table>
+                    }
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+
+        $('#OrderDetails').DataTable({
+            "order": [],
+            "columnDefs": [{
+                "targets": 'no-sort',
+                "orderable": false,
+                "pageLength": 25
+            }
+            ]
+        });
+
+        var Username = $("#loggedInUser").text();
+        GetInvoicedetailsByroles(Username);
+
+    });
+    $(document).on("click", "#btnid", function (event) {
+        event.preventDefault();
+        var fileOptions = {
+            success: res,
+            dataType: "json"
+        }
+        $("#formid").ajaxSubmit(fileOptions);
+    });
+
+
+    $('#Amounttype').change(function () {
+        var selected = $(this).val();
+        if (selected == 'Cheque') {
+            $('#ChqNo').show();
+            $('#Chqdate').show();
+            $('#chqno').show();
+            $('#chqdate').show();
+            $('#ChqNumber').show();
+            $('#Chquedate').show();
+        }
+        else {
+
+            $('#ChqNo').hide();
+            $('#Chqdate').hide();
+            $('#chqno').hide();
+            $('#chqdate').hide();
+            $('#ChqNumber').hide();
+            $('#Chquedate').hide();
+        }
+
+    });
+
+
+
+    function LoadReceivemodel(OrderNo) {
+
+
+        $('#InvOrderNo').val(OrderNo);
+    }
+    function LoadETAmodel(OrderNo) {
+
+
+        $('#ETAInvOrderNo').val(OrderNo);
+    }
+    function LoadUploadmodel(OrderNo) {
+
+
+        $('#UploadInvOrderNo').val(OrderNo);
+    }
+
+
+    function LoadTransactionDetails(OrderNo) {
+         var stsid = '';
+         var html = '';
+         $("#InvoiceTransactiontbl TBODY").empty();
+                    $('#InvoiceTransactiontbl').css('display', 'inline');
+                    $.ajax({
+                        url: '@Url.Action("InvoiceTransactionDetails", "Home")',
+                        type: "GET",
+                        data: { 'OrderNo': OrderNo },
+                        contentType: "application/json;charset=utf-8",
+                        dataType: "json",
+                        success: function (result) {
+                            var value = result.length;
+
+
+                   // var t = document.getElementsByName("DynamicTextBox");
+                    $.each(result, function (key, item) {
+                        html += '<tr> <td id="Orderno">' + item.InvOrderNo+ ' </td>';
+                        html += '<td> ' + item.InvType + '</td><td>' + item.RecieveAmt + ' </td> <td> ' + item.AdjustmentValue + ' </td>  ';
+
+                        html += '<td>' + item.Reciving_Date+ '</td></tr> ';
+
+                    });
+                            console.log(html);
+                            $("#InvoiceTransactiontbl TBODY").html(html);
+                        }
+
+         });
+
+     }
+
+    function GetInvoicedetailsByroles(Username) {
+   $.ajax({
+            url: '@Url.Action("OrderinvoiceUser", "Home")',
+       type: "GET",
+       data: { 'Username': Username},
+       contentType: "application/json;charset=utf-8",
+       dataType: "json",
+       success: function (result) {
+
+           if (result.length > 0) {
+               $("#Addorder").show();
+
+               $(".UploadInv").show();
+               $(".UploadInvoice").show();
+               $(".Detail").hide();
+               $(".Receiv").hide();
+               $("#Detailshdr").hide();
+               $("#Receivehdr").hide();
+               $(".Upload").show();
+               $("#Uploadhdr").show();
+
+               $(".btnupload").show();
+               $(".TDupdfile").show();
+               $("#Updhdr").show();
+
+
+
+           }
+           else {
+               $("#Addorder").hide();
+               //$(".Uploadhdr").hide();
+               $(".Uploadinv").hide();
+               $(".hdrETA").show();
+               $(".TDETA").show();
+
+           }
+
+       },
+       error: function (errormessParentMenuId) {
+           $(".Detail").show();
+           $(".Receiv").show();
+           $(".Details").show();
+           $("#Detailshdr").show();
+           $(".Receive").show();
+           $("#Receivehdr").show();
+           $("#ETAhdr").show();
+           $(".Duedate").show();
+           $(".ETA").show();
+           $(".hdrETA").show();
+           $(".TDETA").show();
+
+           //$("#Addorder").hide();
+       }
+
+
+
+
+        });
+    }
+
+
+
+
+
+
+
+
+    $("body").on("click", "#btnAdd", function () {
+        var InvoiceNo = $("#InvoiceNO");
+        var InvoiceType = $("#InvoiceType")
+        var Cname = $("#CustomerName");
+        var Cdate = $("#InvoiceDate");
+
+        var InvoiceAmt = $("#InvoiceAmt");
+        var Ddate = $("#DeliveryDate");
+        var Uploadfile = $(".UploadImage").val().replace(/C:\\fakepath\\/i, '');
+
+        //if (Uploadfile.find(/fakepath/)) {
+        //    var fileNameIndex = Uploadfile.lastIndexOf("/") + 1;
+        //    Uploadfile = Uploadfile.substr(fileNameIndex);
+        //}
+        if (InvoiceNo.val() != '' && Cname.val() != '' && Cdate.val() != '' && InvoiceAmt.val() != '' && Ddate.val() != '') {
+
+
+            //Get the reference of the Table's TBODY element.
+            var tBody = $("#OrderInvoicetbl  > TBODY")[0];
+
+            //Add Row.
+            var row = tBody.insertRow(-1);
+            cell = $(row.insertCell(-1));
+            cell.html(InvoiceNo.val());
+            //Add Country cell.
+            cell = $(row.insertCell(-1));
+            cell.html($('#InvoiceType option:selected').text());
+            cell = $(row.insertCell(-1));
+            //cell.html($('#InvoiceType option:selected').val()).hide();
+            //cell = $(row.insertCell(-1));
+            cell.html(Cname.val());
+            cell = $(row.insertCell(-1));
+            cell.html(Cdate.val());
+            cell = $(row.insertCell(-1));
+            cell.html(InvoiceAmt.val());
+            cell = $(row.insertCell(-1));
+            cell.html(Ddate.val());
+            cell = $(row.insertCell(-1));
+            cell.html(Uploadfile);
+
+
+            //Add Button cell.
+            cell = $(row.insertCell(-1));
+            var btnRemove = $("<input />");
+            btnRemove.attr("type", "button");
+            btnRemove.attr("onclick", "Remove(this);");
+            btnRemove.val("Remove");
+            cell.append(btnRemove);
+
+            //  PurchaseQty.val("");
+            //OriginalSerialNo.val("");
+        }
+        else {
+            alert("Enter the both value.")
+        }
+    });
+
+
+    function Remove(button) {
+        //Determine the reference of the Row using the Button.
+        var row = $(button).closest("TR");
+        var InvoiceNo = $("TD", row).eq(0).html();
+        var PQty = $("TD", row).eq(1).html();
+        var InvoiceDate = $("TD", row).eq(9).html();
+        if (confirm("Do you want to delete: " + name)) {
+            //Get the reference of the Table.
+            var table = $("#OrderInvoicetbl")[0];
+
+            //Delete the Table row using it's Index.\
+            table.deleteRow(row[0].rowIndex);
+
+        }
+    };
+
+
+
+
+    $(".Receive").click(function () {
+        var $item = $(this).closest("tr")   // Finds the closest row <tr>
+            .find(".nr")     // Gets a descendent with class="nr"
+            .text();         // Retrieves the text within <td>
+
+        $("#InvNo").html($item);       // Outputs the answer
+        var $item = $(this).closest("tr")   // Finds the closest row <tr>
+            .find(".na")     // Gets a descendent with class="nr"
+            .text();         // Retrieves the text within <td>
+
+        $("#InvAmt").html($item);       // O
+        $("#InvAmt").html($item);       // O
+    });
+    function SubmitInvOrderdetails() {
+        var InvoiceOrderdetails = new Array();
+        var Invoice = {};
+
+        //Loop through the Table rows and build a JSON array.
+        var Invoicedetails = new Array();
+
+            Invoice.InvOrderNo = $("#InvOrderNo").val();
+            Invoice.RecieveAmt = $("#ReceiveAmt").val();
+            Invoice.InvType = $("#Amounttype").val();
+            Invoice.ChequeNo = $("#ChqNumber").val();
+            Invoice.Chequedate = $("#Chquedate").val();
+            Invoice.RecivingDate = $("#RecievingDate").val();
+            Invoice.AdjustmentValue = $("#AdjustedValue").val();
+            Invoice.InvComment = $("#Comment").val();
+
+            Invoicedetails.push(Invoice);
+
+        if (Invoicedetails.length == 0) {
+            alert('Please add record line');
+
+            return;
+        }
+
+        console.log(Invoicedetails)
+
+         jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("AddInvoiceDetails", "Home")',
+             data: JSON.stringify({ 'Invoicedetails': Invoicedetails}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (r) {
+
+                if (r == 1) {
+                    alert("Successfully Added")
+                    window.location = "@Url.Action("OrderInvoice", "Home")";
+                }
+                else if (r == 1) {
+                    alert("This Invoice no already exist.")
+                }
+            }
+        });
+    }
+
+
+    function SubmitInvoiceDetails() {
+
+        var Category = 1;
+        var Username = $("#loggedInUser").text();
+        //Loop through the Table rows and build a JSON array.
+        var Invoicedetails = new Array();
+
+        $("#OrderInvoicetbl TBODY TR").each(function () {
+            var row = $(this);
+            var Invoice = {};
+
+            Invoice.InvoiceNo = row.find("TD").eq(0).html();
+            Invoice.InvoiceType = row.find("TD").eq(1).html();
+            Invoice.CustomerName = row.find("TD").eq(2).html();
+            Invoice.InvoiceDate = row.find("TD").eq(3).html();
+            Invoice.InvoiceAmount = row.find("TD").eq(4).html();
+            Invoice.deliverydate = row.find("TD").eq(5).html();
+            Invoice.UploadImage = row.find("TD").eq(6).html();
+
+            Invoice.UserName = Username;
+            Invoicedetails.push(Invoice);
+        });
+        if (Invoicedetails.length == 0) {
+            alert('Please add record line');
+
+            return;
+        }
+
+        console.log(Invoicedetails)
+
+         jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("AddInvoiceOrder", "Home")',
+             data: JSON.stringify({ 'Invoicedetails': Invoicedetails}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (r) {
+
+                if (r == 1) {
+                    alert("Successfully Added")
+                    window.location = "@Url.Action("OrderInvoice", "Home")";
+                }
+                else if (r == 1) {
+                    alert("This Invoice no already exist.")
+                }
+            }
+        });
+    }
+
+    function AddETA(OrderNo) {
+
+
+        var Invoice = {};
+
+        var InvoiceETA = new Array();
+        Invoice.InvOrderNo = $('#ETAInvOrderNo').val();
+        Invoice.ETADate = $("#ETA").val();
+        InvoiceETA.push(Invoice);
+
+        if (InvoiceETA.length == 0) {
+            alert('Please add record line');
+
+            return;
+        }
+        console.log(InvoiceETA);
+          jQuery.ajax({
+            type: "POST",
+            url: '@Url.Action("AddETA", "Home")',
+              data: JSON.stringify({ 'InvoiceETA': InvoiceETA}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            success: function (r) {
+
+                if (r == 1) {
+                    alert("Updated Succesfully")
+                    window.location = "@Url.Action("OrderInvoice", "Home")";
+                }
+                else  {
+                    alert("ETA Already Updated")
+                }
+            }
+        });
+    }
+
+</script>

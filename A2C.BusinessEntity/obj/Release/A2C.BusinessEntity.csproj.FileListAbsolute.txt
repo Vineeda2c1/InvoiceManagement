@@ -1,0 +1,11 @@
+C:\Users\user\source\repos\InvoiceManagementNew\A2C.BusinessEntity\bin\Release\A2C.BusinessEntity.dll
+C:\Users\user\source\repos\InvoiceManagementNew\A2C.BusinessEntity\bin\Release\A2C.BusinessEntity.pdb
+C:\Users\user\source\repos\InvoiceManagementNew\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\InvoiceManagementNew\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.dll
+C:\Users\user\source\repos\InvoiceManagementNew\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.pdb
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\bin\Release\A2C.BusinessEntity.dll
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\bin\Release\A2C.BusinessEntity.pdb
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.csprojAssemblyReference.cache
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.csproj.CoreCompileInputs.cache
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.dll
+C:\Invoice_Management_test\Invoice_management\A2C.BusinessEntity\obj\Release\A2C.BusinessEntity.pdb
